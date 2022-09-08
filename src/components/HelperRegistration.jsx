@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import '../JQuery/JQueryhelpform.js'
 
 export default class HelperRegistration extends Component {
     render() {
@@ -18,7 +17,7 @@ export default class HelperRegistration extends Component {
                         <input type="radio" value="Female" name="gender" /> Female &nbsp;
                         <input type="radio" value="Other" name="gender" /> Other &nbsp;
 
-                        <br /><br />
+                        <br/><br/>
                     </div>
                     <div className="row">
                         <div className="form-group col-6">
