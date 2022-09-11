@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardGroup, CardImg } from 'react-bootstrap'
+import { Card, CardGroup } from 'react-bootstrap'
 import SVI from '../images/SVI-original.jpg'
 import ARN from '../images/ARN-original.jpg'
 import SG from '../images/SG-original.jpg'
@@ -11,12 +11,12 @@ export default function About() {
         <div className='container-fluid col-8'>
             <h1 style={{textAlign: 'center'}} className='mt-3 text-secondary'>Developed by</h1><hr/><br/><br/>
         <CardGroup>
-            <Card style={{width:'18rem'}}>
+            <Card className='col-4'>
                 <Card.Body>
-                    <img src={SVI} height={200}></img>
+                    <img src={SVI} height={150} alt='Not available'></img>
                 </Card.Body>
             </Card>
-            <Card>
+            <Card className='col-8'>
                 <Card.Body>
                     <p>Name: Sohail Inamdar</p>
                     <p>PRN: 220343120037</p>
@@ -27,13 +27,13 @@ export default function About() {
         <CardGroup>
             <Card style={{width:'18rem'}}>
                 <Card.Body>
-                    <img src={ARN} height={200}></img>
+                    <img src={ARN} height={150} alt='Not available'></img>
                 </Card.Body>
             </Card>
             <Card>
                 <Card.Body>
-                    <p>Name: Sohail Inamdar</p>
-                    <p>PRN: 220343120037</p>
+                    <p>Name: Aditya Nair</p>
+                    <p>PRN: 220343120003</p>
                     <p>Institute: CDAC Infoway</p>
                 </Card.Body>
             </Card>
@@ -41,13 +41,13 @@ export default function About() {
         <CardGroup>
             <Card style={{width:'18rem'}}>
                 <Card.Body>
-                    <img src={SG} height={200}></img>
+                    <img src={SG} height={150} alt='Not available'></img>
                 </Card.Body>
             </Card>
             <Card>
                 <Card.Body>
-                    <p>Name: Sohail Inamdar</p>
-                    <p>PRN: 220343120037</p>
+                    <p>Name: Sadanand Gobade</p>
+                    <p>PRN: 220343120036</p>
                     <p>Institute: CDAC Infoway</p>
                 </Card.Body>
             </Card>
@@ -55,13 +55,13 @@ export default function About() {
         <CardGroup>
             <Card style={{width:'18rem'}}>
                 <Card.Body>
-                    <img src={SS} height={200}></img>
+                    <img src={SS} height={150} alt='Not available'></img>
                 </Card.Body>
             </Card>
             <Card>
                 <Card.Body>
-                    <p>Name: Sohail Inamdar</p>
-                    <p>PRN: 220343120037</p>
+                    <p>Name: Sujeet Shinde</p>
+                    <p>PRN: 220343120107</p>
                     <p>Institute: CDAC Infoway</p>
                 </Card.Body>
             </Card>
