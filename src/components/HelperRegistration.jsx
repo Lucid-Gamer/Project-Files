@@ -80,7 +80,7 @@ export default function HelperRegistration (){
                         </div>
                         <div className="form-group col-6">
                             <b>E-mail</b>
-                            <input type="text" name="email" className="form-control" placeholder="Enter Your Email Id" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                            <input type="email" name="email" className="form-control" placeholder="Enter Your Email Id" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
                             {formik.touched.email && formik.errors.email?<span className="text-danger">{formik.errors.email}</span>:null}
                             <br />
                         </div>
@@ -118,11 +118,12 @@ export default function HelperRegistration (){
                         {formik.touched.ch && formik.errors.ch?<span className="text-danger">{formik.errors.ch}</span>:null}
                     </div><br />
                     <div className="mt-2">
-                        <input type="submit" className="btn btn-success ms-2" id="submit" value="SUBMIT" disabled="true" />
+                        <input type="submit" className="btn btn-success ms-2" id="submit" value="SUBMIT" />
                         <input type="reset" className="btn btn-success ms-2" />
                     </div>
                     <br /><br />
                 </form>
+                
             </div>
         )
     }
