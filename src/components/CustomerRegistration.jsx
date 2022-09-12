@@ -50,10 +50,10 @@ export default function CustomerRegistration() {
             ch:''
         },
         validate:validateCustomer
-    }) */
-    return (
-        <div>
-            {/* <div className="container mt-5 col-6">
+    })
+        return (
+            <div>
+                <div className="container mt-5 col-6">
                     <div id="myalert"></div>
                     <h1>Customer Registration </h1><br /><br />
                     <form id="form" method="post" onSubmit={formik.handleSubmit}>
