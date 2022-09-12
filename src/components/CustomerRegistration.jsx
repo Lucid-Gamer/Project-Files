@@ -1,5 +1,5 @@
 import React from 'react'
-import { useFormik } from 'formik'
+/* import { useFormik } from 'formik' */
 
 /* const validateCustomer=(custdata) =>{
     const errors={}
@@ -50,10 +50,10 @@ export default function CustomerRegistration() {
             ch:''
         },
         validate:validateCustomer
-    })
+    })*/
         return (
             <div>
-                <div className="container mt-5 col-6">
+                {/*<div className="container mt-5 col-6">
                     <div id="myalert"></div>
                     <h1>Customer Registration </h1><br /><br />
                     <form id="form" method="post" onSubmit={formik.handleSubmit}>
@@ -115,7 +115,6 @@ export default function CustomerRegistration() {
                     </form>
                 </div>
                 <script>
-                    
                 </script> */}
             <div class="container mt-5 col-6">
                 <div id="myalert"></div>
@@ -159,12 +158,10 @@ export default function CustomerRegistration() {
                         <input type="submit" class="btn btn-success ms-2" id="submit" value="SUBMIT" disabled="true" />
                         <input type="reset" class="btn btn-success ms-2" />
                     </div>
-                    <br /><br />
+                    <br /><br/>
                 </form>
             </div>
-
             <script src='header.js'></script>
-
         </div>
     )
 }
