@@ -1,7 +1,7 @@
 import React from 'react'
 import { useFormik } from 'formik'
 
-const validateCustomer=(custdata) =>{
+/* const validateCustomer=(custdata) =>{
     const errors={}
     let pattern = /^([a-zA-Z\s]+)$/
     //let numpat = /^([0-9]{10})$/
@@ -36,10 +36,10 @@ const validateCustomer=(custdata) =>{
     }
     return errors
 }
+ */
+export default function CustomerRegistration() {
 
-export default function CustomerRegistration(){
-
-    const formik = useFormik({
+    /* const formik = useFormik({
         initialValues:{
             name:'',
             gender:'',
@@ -50,10 +50,10 @@ export default function CustomerRegistration(){
             ch:''
         },
         validate:validateCustomer
-    })
-        return (
-            <div>
-                <div className="container mt-5 col-6">
+    }) */
+    return (
+        <div>
+            {/* <div className="container mt-5 col-6">
                     <div id="myalert"></div>
                     <h1>Customer Registration </h1><br /><br />
                     <form id="form" method="post" onSubmit={formik.handleSubmit}>
@@ -116,8 +116,56 @@ export default function CustomerRegistration(){
                 </div>
                 <script>
                     
-                </script>
+                </script> */}
+            <div class="container mt-5 col-6">
+                <div id="myalert"></div>
+                <h1>Customer Registration </h1><br /><br />
+                <form id="form" method="post">
+                    <div class="form-group col-12">
+                        <b>Name</b>
+                        <input type="text" name="name" class="form-control" placeholder="Enter First Name and Last Name" /><br />
+                    </div>
+                    <b>Gender</b><br />
+                    <input type="radio" value="Male" name="gender" /> Male
+                    <input type="radio" value="Female" name="gender" /> Female
+                    <input type="radio" value="Other" name="gender" /> Other
+                    <br /><br />
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <b>DOB</b>
+                            <input type="date" name="dob" class="form-control" placeholder="Enter Your DOB" /><br />
+                        </div>
+                        <div class="form-group col-6">
+                            <b>E-mail</b>
+                            <input type="text" name="email" class="form-control" placeholder="Enter Your Email Id" /><br />
+                        </div>
+
+                        <div class="form-group col-6">
+                            <b>Mobile</b>
+                            <input type="text" name="mobile" class="form-control" placeholder="Enter Mobile No." /><br />
+                        </div>
+                    </div>
+                    <div class="form-group col-12">
+                        <b>Address</b>
+                        <input type="" name="address" class="form-control" placeholder="Enter Your Address" /><br />
+                    </div>
+                    <span id="errorToShow"></span>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="ch" id="ch" value="checked" />
+                        <label class="form-check-label">I accept Terms & Conditions</label><br />
+                        <span id="cherror"></span>
+                    </div><br />
+                    <div class="mt-2">
+                        <input type="submit" class="btn btn-success ms-2" id="submit" value="SUBMIT" disabled="true" />
+                        <input type="reset" class="btn btn-success ms-2" />
+                    </div>
+                    <br /><br />
+                </form>
             </div>
+
+            <script src='header.js'></script>
+
+        </div>
     )
 }
 

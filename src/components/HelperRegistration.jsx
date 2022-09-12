@@ -53,9 +53,9 @@ export default function HelperRegistration (){
     })
 
         return (
-            <div className="container mt-5 col-6">
+            <div className="container">
                 <div id="myalert"></div>
-                <h1>Helper Registration </h1><br /><br />
+                <h1 style={{textAlign:'center'}}>Helper Registration </h1><br /><br />
                 <form id="form" method="post">
                     <div className="form-group col-12">
                         <b>Name</b>
@@ -124,7 +124,10 @@ export default function HelperRegistration (){
                     <br /><br />
                 </form>
                 
-            </div>
+
+        
+    </div>         
         )
     }
+
 
