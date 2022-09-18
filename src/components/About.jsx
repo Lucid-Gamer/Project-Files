@@ -61,7 +61,7 @@ export default function About() {
             <Card>
                 <Card.Body>
                     <p>Name: Sujeet Shinde</p>
-                    <p>PRN: 220343120107</p>
+                    <p>PRN: 220343120102</p>
                     <p>Institute: CDAC Infoway</p>
                 </Card.Body>
             </Card>

@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import logo from '../images/Logo.png'
 
 class HeaderComponent extends Component {
   /* constructor(props) {
@@ -40,7 +41,7 @@ class HeaderComponent extends Component {
       <div>
         <Navbar bg='dark' className='navbar navbar-expand-lg navbar-dark' expand="lg">
           <Container>
-            <Navbar.Brand href="/home">HouseHelper</Navbar.Brand>
+            <Navbar.Brand href="/home"><img src={logo} width={200} height={50} alt='HouseHelpers'/></Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
@@ -58,9 +59,18 @@ class HeaderComponent extends Component {
                     Petcare
                   </NavDropdown.Item>
                 </NavDropdown>
-                <Nav.Link href="#home" className="justify-content-flex-start">Feedback</Nav.Link>
+                <Nav.Link href="/custlist">Customers</Nav.Link>
+                <Nav.Link href="/helplist">Helpers</Nav.Link>
+                <Nav.Link href="#home">Feedback</Nav.Link>
               </Nav>
               <Nav>
+              <NavDropdown title="Signup" id="basic-nav-dropdown" >
+                  <NavDropdown.Item href='/custreg'>Customer</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="/helpreg">
+                    Helper
+                  </NavDropdown.Item>
+                </NavDropdown>
                 <NavDropdown title="Login" id="basic-nav-dropdown" >
                   <NavDropdown.Item href='/custlogin'>Customer</NavDropdown.Item>
                   <NavDropdown.Divider />

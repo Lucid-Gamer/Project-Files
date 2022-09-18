@@ -1,103 +1,133 @@
-import React from 'react'
-/* import { useFormik } from 'formik' */
+import React, { useState } from 'react'
+import { useFormik } from 'formik'
+import { useNavigate } from 'react-router-dom'
+import CustomerService from '../Service/CustomerService'
 
-/* const validateCustomer=(custdata) =>{
+const validateCustomer=(custdata) =>{
     const errors={}
     let pattern = /^([a-zA-Z\s]+)$/
     //let numpat = /^([0-9]{10})$/
     //let emailpattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
-    if (!custdata.name) {
-        errors.name="Name is required"
+    if (!custdata.customerName) {
+        errors.customerName="Name is required"
     }
-    else if(!pattern.test(custdata.name))
+    else if(!pattern.test(custdata.customerName))
     {
-        errors.name="Alphabets Only"
+        errors.customerName="Alphabets Only"
     }
-    if (custdata.gender.value==='') {
+    if (!custdata.gender) {
         errors.gender="Please select a gender"
     }
-    if (custdata.dob.value==='') {
+    if (!custdata.dob) {
         errors.dob="Please enter your date of birth"
     }
-    if (custdata.email.value==='') {
-        errors.email="Please enter your email address"
+    if (!custdata.customerEmailID) {
+        errors.customerEmailID="Please enter your email address"
     }
-    if (custdata.mobile.value==='') {
-        errors.mobile="Please enter your mobile number"
+    if (!custdata.customerContact) {
+        errors.customerContact="Please enter your mobile number"
     }
     // else if (!numpat.test(custdata.mobile.value)) {
     //     errors.mobile="Please enter valid mobile number"
     // }
-    if (custdata.address.value==='') {
-        errors.address="Please enter your address"
+    if (!custdata.customerAddress) {
+        errors.customerAddress="Please enter your address"
     }
-    if (custdata.ch.value==='unchecked') {
+    if (!custdata.ch) {
         errors.ch="Please agree to these terms and conditions"
     }
     return errors
 }
- */
-export default function CustomerRegistration() {
 
-    /* const formik = useFormik({
+export default function CustomerRegistration(){
+
+
+	const [Customer,SetCustomer] = useState({
+        customerName:'',
+        dob:'',
+        customerContact:'',
+        customerAddress:'',
+        customerEmailID:'',
+        customerGender:''
+    })
+
+	const navigate = useNavigate();
+
+    const handleChange = (e) =>{
+        const value = e.target.value;
+        SetCustomer({...Customer,[e.target.name]:value})
+    }
+
+    const addCustomer = (e) =>{
+        CustomerService.createCustomer(Customer).then((res)=>{
+            e.preventDefault();
+            alert("New Customer has been added");
+            navigate('/custlist');
+            console.log(res.data);
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
+	
+    const formik = useFormik({
         initialValues:{
-            name:'',
+            customerName:'',
             gender:'',
             dob:'',
-            email:'',
-            mobile:'',
-            address:'',
+            customerEmailID:'',
+            customerContact:'',
+            customerAddress:'',
             ch:''
         },
         validate:validateCustomer
-    })*/
+    })
         return (
             <div>
-                {/*<div className="container mt-5 col-6">
+                <div className="container mt-5 col-6">
                     <div id="myalert"></div>
-                    <h1>Customer Registration </h1><br /><br />
-                    <form id="form" method="post" onSubmit={formik.handleSubmit}>
+                    <h1 style={{textAlign:'center'}}>Customer Registration </h1><hr/><br/>
+                    <form id="form" method="post" onSubmit={formik.handleSubmit || ((e)=>{addCustomer(e)})}>
                         <div className="form-group col-12">
                             <b>Name</b>
-                            <input type="text" name="name" className="form-control" 
-                            placeholder="Enter First Name and Last Name" value={formik.values.name} 
-                            onChange={formik.handleChange} onBlur={formik.handleBlur}/>
-                            {formik.touched.name && formik.errors.name?<span className="text-danger">{formik.errors.name}</span>:null}
+                            <input type="text" name="customerName" className="form-control" 
+                            placeholder="Enter First Name and Last Name" value={(formik.values.customerName) || (Customer.customerName)} 
+                            onChange={(formik.handleChange) && ((e)=>{handleChange(e)})} onBlur={formik.handleBlur} />
+                            {formik.touched.customerName && formik.errors.customerName?<span className="text-danger">{formik.errors.customerName}</span>:null}
                             <br />
                         </div>
                         <b>Gender</b><br />
-                        <input type="radio" value="Male" name="gender" /> Male &nbsp;
-                        <input type="radio" value="Female" name="gender" /> Female &nbsp;
-                        <input type="radio" value="Other" name="gender" /> Other &nbsp;
+                        <input id="gender" type="radio" value="Male" name="gender" /> Male &nbsp;
+                        <input id="gender" type="radio" value="Female" name="gender" /> Female &nbsp;
+                        <input  type="radio" value="Other" name="gender" /> Other &nbsp;
                         {formik.touched.gender && formik.errors.gender?<span className="text-danger">{formik.errors.gender}</span>:null}
                         <br /><br />
 
                         <div className="row">
                             <div className="form-group col-6">
                                 <b>DOB</b>
-                                <input type="date" name="dob" className="form-control" placeholder="Enter Your DOB"
-                                onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                                <input type="date" name="dob" className="form-control" placeholder="Enter Your DOB" value={formik.values.dob || Customer.dob}
+                                onChange={formik.handleChange  && ((e)=>{handleChange(e)})} onBlur={formik.handleBlur}/>
                             {formik.touched.dob && formik.errors.dob?<span className="text-danger">{formik.errors.dob}</span>:null}
                             <br />
                             </div>
                             <div className="form-group col-6">
                                 <b>E-mail</b>
-                                <input type="email" name="email" className="form-control" placeholder="Enter Your Email Id"  onChange={formik.handleChange} onBlur={formik.handleBlur}/>
-                            {formik.touched.email && formik.errors.email?<span className="text-danger">{formik.errors.email}</span>:null}
+                                <input type="email" name="customerEmailID" className="form-control" placeholder="Enter Your Email Id" value={formik.values.customerEmailID || Customer.customerEmailID}  onChange={formik.handleChange && ((e)=>{handleChange(e)})} onBlur={formik.handleBlur}/>
+                            {formik.touched.customerEmailID && formik.errors.customerEmailID?<span className="text-danger">{formik.errors.customerEmailID}</span>:null}
                             <br />
                             </div>
 
                             <div className="form-group col-6">
                                 <b>Mobile</b>
-                                <input type="text" name="mobile" className="form-control" placeholder="Enter Mobile No." onChange={formik.handleChange} onBlur={formik.handleBlur}/>
-                            {formik.touched.mobile && formik.errors.mobile?<span className="text-danger">{formik.errors.mobile}</span>:null}
+                                <input type="text" name="customerContact" className="form-control" placeholder="Enter Mobile No." value={formik.values.customerContact || Customer.customerContact} onChange={formik.handleChange && ((e)=>{handleChange(e)})} onBlur={formik.handleBlur}/>
+                            {formik.touched.customerContact && formik.errors.customerContact?<span className="text-danger">{formik.errors.customerContact}</span>:null}
                             <br />
                             </div>
                         </div>
                         <div className="form-group col-12">
                             <b>Address</b>
-                            <input type="" name="address" className="form-control" placeholder="Enter Your Address" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
-                            {formik.touched.address && formik.errors.address?<span className="text-danger">{formik.errors.address}</span>:null}
+                            <input type="" name="customerAddress" className="form-control" placeholder="Enter Your Address" value={formik.values.customerAddress || Customer.customerAddress} onChange={formik.handleChange && ((e)=>{handleChange(e)})} onBlur={formik.handleBlur}/>
+                            {formik.touched.customerAddress && formik.errors.customerAddress?<span className="text-danger">{formik.errors.customerAddress}</span>:null}
                             <br />
                         </div>
                         <span id="errorToShow"></span>
@@ -114,55 +144,6 @@ export default function CustomerRegistration() {
                         <br /><br />
                     </form>
                 </div>
-                <script>
-                </script> */}
-            <div class="container mt-5 col-6">
-                <div id="myalert"></div>
-                <h1>Customer Registration </h1><br /><br />
-                <form id="form" method="post">
-                    <div class="form-group col-12">
-                        <b>Name</b>
-                        <input type="text" name="name" class="form-control" placeholder="Enter First Name and Last Name" /><br />
-                    </div>
-                    <b>Gender</b><br />
-                    <input type="radio" value="Male" name="gender" /> Male
-                    <input type="radio" value="Female" name="gender" /> Female
-                    <input type="radio" value="Other" name="gender" /> Other
-                    <br /><br />
-                    <div class="row">
-                        <div class="form-group col-6">
-                            <b>DOB</b>
-                            <input type="date" name="dob" class="form-control" placeholder="Enter Your DOB" /><br />
-                        </div>
-                        <div class="form-group col-6">
-                            <b>E-mail</b>
-                            <input type="text" name="email" class="form-control" placeholder="Enter Your Email Id" /><br />
-                        </div>
-
-                        <div class="form-group col-6">
-                            <b>Mobile</b>
-                            <input type="text" name="mobile" class="form-control" placeholder="Enter Mobile No." /><br />
-                        </div>
-                    </div>
-                    <div class="form-group col-12">
-                        <b>Address</b>
-                        <input type="" name="address" class="form-control" placeholder="Enter Your Address" /><br />
-                    </div>
-                    <span id="errorToShow"></span>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" name="ch" id="ch" value="checked" />
-                        <label class="form-check-label">I accept Terms & Conditions</label><br />
-                        <span id="cherror"></span>
-                    </div><br />
-                    <div class="mt-2">
-                        <input type="submit" class="btn btn-success ms-2" id="submit" value="SUBMIT" disabled="true" />
-                        <input type="reset" class="btn btn-success ms-2" />
-                    </div>
-                    <br /><br/>
-                </form>
             </div>
-            <script src='header.js'></script>
-        </div>
     )
 }
-
