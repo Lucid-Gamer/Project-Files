@@ -50,9 +50,9 @@ export default function EditHelper() {
                 </div>
                 <div>
                     <b>Gender</b><br />
-                    <input type="radio" value="Male" name="gender" /> Male &nbsp;
-                    <input type="radio" value="Female" name="gender" /> Female &nbsp;
-                    <input type="radio" value="Other" name="gender" /> Other &nbsp;
+                    <input type="radio" defaultValue={Helper.helperGender} value="Male" name="helperGender" className="form-check-input" onChange={(e)=>{changeHandler(e)}}/> Male &nbsp;
+                    <input type="radio" defaultValue={Helper.helperGender} value="Female" name="helperGender" className="form-check-input" onChange={(e)=>{changeHandler(e)}}/> Female &nbsp;
+                    <input type="radio" defaultValue={Helper.helperGender} value="Other" name="helperGender" className="form-check-input" onChange={(e)=>{changeHandler(e)}}/> Other &nbsp;
                     {/* {formik.touched.gender && formik.errors.gender ? <span className="text-danger">{formik.errors.gender}</span> : null} */}
                     <br /><br />
                 </div>

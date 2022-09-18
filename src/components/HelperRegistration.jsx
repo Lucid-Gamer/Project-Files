@@ -98,9 +98,9 @@ export default function HelperRegistration() {
                 </div>
                 <div >
                     <b>Gender</b><br />
-                    <input type="radio" value="male" className="form-check-input" name="helperGender" /> Male &nbsp;
-                    <input type="radio" value="female" className="form-check-input" name="helperGender" /> Female &nbsp;
-                    <input type="radio" value="other" className="form-check-input" name="helperGender" /> Other &nbsp;
+                    <input type="radio" defaultValue="Male" value={Helper.helperGender} name="helperGender"  className="form-check-input" onChange={(e)=>{changeHandler(e)}}/> Male &nbsp;
+                    <input type="radio" defaultValue="Female" value={Helper.helperGender} name="helperGender"  className="form-check-input" onChange={(e)=>{changeHandler(e)}}/> Female &nbsp;
+                    <input type="radio" defaultValue="Other" value={Helper.helperGender} name="helperGender"  className="form-check-input" onChange={(e)=>{changeHandler(e)}}/> Other &nbsp;
                     {/* {formik.touched.gender && formik.errors.gender ? <span className="text-danger">{formik.errors.gender}</span> : null} */}
                     <br /><br />
                 </div>
