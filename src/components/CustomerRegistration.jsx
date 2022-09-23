@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useFormik } from 'formik'
+import { useState } from 'react'
+import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import CustomerService from '../Service/CustomerService'
 
 const validateCustomer=(custdata) =>{
     const errors={}
@@ -15,8 +16,8 @@ const validateCustomer=(custdata) =>{
     {
         errors.customerName="Alphabets Only"
     }
-    if (!custdata.gender) {
-        errors.gender="Please select a gender"
+    if (!custdata.customerGender) {
+        errors.customerGender="Please select a gender"
     }
     if (!custdata.dob) {
         errors.dob="Please enter your date of birth"
@@ -42,7 +43,7 @@ const validateCustomer=(custdata) =>{
 export default function CustomerRegistration(){
 
 
-	const [Customer,SetCustomer] = useState({
+	const [Customer, setCustomer] = useState({
         customerName:'',
         dob:'',
         customerContact:'',
@@ -51,28 +52,10 @@ export default function CustomerRegistration(){
         customerGender:''
     })
 
-	const navigate = useNavigate();
-
-    const handleChange = (e) =>{
-        const value = e.target.value;
-        SetCustomer({...Customer,[e.target.name]:value})
-    }
-
-    const addCustomer = (e) =>{
-        CustomerService.createCustomer(Customer).then((res)=>{
-            e.preventDefault();
-            alert("New Customer has been added");
-            navigate('/custlist');
-            console.log(res.data);
-        }).catch((err)=>{
-            console.log(err);
-        })
-    }
-	
     const formik = useFormik({
         initialValues:{
             customerName:'',
-            gender:'',
+            customerGender:'',
             dob:'',
             customerEmailID:'',
             customerContact:'',
@@ -81,69 +64,88 @@ export default function CustomerRegistration(){
         },
         validate:validateCustomer
     })
-        return (
-            <div>
-                <div className="container mt-5 col-6">
-                    <div id="myalert"></div>
-                    <h1 style={{textAlign:'center'}}>Customer Registration </h1><hr/><br/>
-                    <form id="form" method="post" onSubmit={formik.handleSubmit || ((e)=>{addCustomer(e)})}>
-                        <div className="form-group col-12">
-                            <b>Name</b>
-                            <input type="text" name="customerName" className="form-control" 
-                            placeholder="Enter First Name and Last Name" value={(formik.values.customerName) || (Customer.customerName)} 
-                            onChange={(formik.handleChange) && ((e)=>{handleChange(e)})} onBlur={formik.handleBlur} />
-                            {formik.touched.customerName && formik.errors.customerName?<span className="text-danger">{formik.errors.customerName}</span>:null}
-                            <br />
-                        </div>
-                        <b>Gender</b><br />
-                        <input id="gender" type="radio" value="Male" name="gender" /> Male &nbsp;
-                        <input id="gender" type="radio" value="Female" name="gender" /> Female &nbsp;
-                        <input  type="radio" value="Other" name="gender" /> Other &nbsp;
-                        {formik.touched.gender && formik.errors.gender?<span className="text-danger">{formik.errors.gender}</span>:null}
-                        <br /><br />
 
-                        <div className="row">
-                            <div className="form-group col-6">
-                                <b>DOB</b>
-                                <input type="date" name="dob" className="form-control" placeholder="Enter Your DOB" value={formik.values.dob || Customer.dob}
-                                onChange={formik.handleChange  && ((e)=>{handleChange(e)})} onBlur={formik.handleBlur}/>
-                            {formik.touched.dob && formik.errors.dob?<span className="text-danger">{formik.errors.dob}</span>:null}
-                            <br />
-                            </div>
-                            <div className="form-group col-6">
-                                <b>E-mail</b>
-                                <input type="email" name="customerEmailID" className="form-control" placeholder="Enter Your Email Id" value={formik.values.customerEmailID || Customer.customerEmailID}  onChange={formik.handleChange && ((e)=>{handleChange(e)})} onBlur={formik.handleBlur}/>
-                            {formik.touched.customerEmailID && formik.errors.customerEmailID?<span className="text-danger">{formik.errors.customerEmailID}</span>:null}
-                            <br />
-                            </div>
+    const navigate = useNavigate();
 
-                            <div className="form-group col-6">
-                                <b>Mobile</b>
-                                <input type="text" name="customerContact" className="form-control" placeholder="Enter Mobile No." value={formik.values.customerContact || Customer.customerContact} onChange={formik.handleChange && ((e)=>{handleChange(e)})} onBlur={formik.handleBlur}/>
-                            {formik.touched.customerContact && formik.errors.customerContact?<span className="text-danger">{formik.errors.customerContact}</span>:null}
-                            <br />
-                            </div>
-                        </div>
-                        <div className="form-group col-12">
-                            <b>Address</b>
-                            <input type="" name="customerAddress" className="form-control" placeholder="Enter Your Address" value={formik.values.customerAddress || Customer.customerAddress} onChange={formik.handleChange && ((e)=>{handleChange(e)})} onBlur={formik.handleBlur}/>
-                            {formik.touched.customerAddress && formik.errors.customerAddress?<span className="text-danger">{formik.errors.customerAddress}</span>:null}
-                            <br />
-                        </div>
-                        <span id="errorToShow"></span>
-                        <div className="form-check">
-                            <input type="checkbox" class="form-check-input" name="ch" id="ch" value="" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
-                            
-                            <label className="form-check-label">I accept Terms and Conditions</label><br />
-                            {formik.touched.ch && formik.errors.ch?<span className="text-danger">{formik.errors.ch}</span>:null}
-                        </div><br />
-                        <div className="mt-2">
-                            <input type="submit" className="btn btn-success ms-2" id="submit" value="SUBMIT" />
-                            <input type="reset" className="btn btn-success ms-2"></input>
-                        </div>
-                        <br /><br />
-                    </form>
+    const changeHandler = (e) => {
+        const { name, value } = e.target;
+        setCustomer({...Customer,[name]:value});
+    }
+
+    const addCustomer = (e) =>{
+        e.preventDefault();
+        axios.post("http://localhost:8081/customer/create",Customer).then((res)=>{
+            alert("Customer has been registered successfully");
+            console.log(res.data);
+            navigate('/custlist');
+       }).catch((err)=>{
+            console.log(err);
+        })
+    }
+
+    return (
+        <div className="container mt-5 col-6">
+            <div id="myalert"></div>
+            <h1 style={{textAlign:'center'}}>Customer Registration </h1><hr /><br />
+            <form id="form" onSubmit={(e)=>{addCustomer(e)}}>
+                <div className="form-group col-12">
+                    <b>Name</b>
+                    <input type="text" name="customerName" className="form-control" placeholder="Enter First Name and Last Name" value={Customer.customerName}
+                        onChange={(e)=>{changeHandler(e)}} /* onBlur={formik.handleBlur} */ />
+                    {formik.touched.customerName && formik.errors.customerName ? <span customerName="text-danger">{formik.errors.customerName}</span> : null}<br />
                 </div>
-            </div>
+                <div className="row">
+                    <div className="form-group col-6">
+                        <b>Gender</b><br />
+                        <select className="form-control" name="customerGender" value={Customer.customerGender} onChange={(e) => { changeHandler(e)}}>
+                            <option selected disabled>Please Select</option>
+                            <option value="Male" onChange={(e) => { changeHandler(e)}}>male</option>
+                            <option value="Female" onChange={(e) => { changeHandler(e)}}>female</option>
+                            <option value="Other" onChange={(e) => { changeHandler(e)}}>other</option>
+                        </select><br />
+                    </div>
+                    <div className="form-group col-6">
+                        <b>Mobile</b>
+                        <input type="text" name="customerContact" className="form-control" placeholder="Enter Mobile No." onChange={(e) => { changeHandler(e) }}/*  onBlur={formik.handleBlur} */ value={Customer.customerContact} />
+                        {formik.touched.customerContact && formik.errors.customerContact ? <span className="text-danger">{formik.errors.customerContact}</span> : null}
+                        <br />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="form-group col-6">
+                        <b>DOB</b>
+                        <input type="date" name="dob" className="form-control" placeholder="Enter Your DOB" onChange={(e)=>{changeHandler(e)}} value={Customer.dob} /* onBlur={formik.handleBlur} */ />
+                        {formik.touched.dob && formik.errors.dob ? <span className="text-danger">{formik.errors.dob}</span> : null}
+                        <br />
+                    </div>
+                    <div className="form-group col-6">
+                        <b>E-mail</b>
+                        <input type="email" name="customerEmailID" className="form-control" placeholder="Enter Your Email Id" onChange={(e)=>{changeHandler(e)}} /* onBlur={formik.handleBlur} */ value={Customer.customerEmailID} />
+                        {formik.touched.customerEmailID && formik.errors.customerEmailID ? <span className="text-danger">{formik.errors.customerEmailID}</span> : null}
+                        <br />
+                    </div>
+                </div>
+               
+              
+                <div className="form-group col-12">
+                    <b>Address</b>
+                    <input type="" name="customerAddress" className="form-control" placeholder="Enter Your Address" onChange={(e)=>{changeHandler(e)}}/*  onBlur={formik.handleBlur} */ value={Customer.customerAddress} />
+                    {formik.touched.customerAddress && formik.errors.customerAddress ? <span className="text-danger">{formik.errors.customerAddress}</span> : null}
+                    <br />
+                </div>
+                <span id="errorToShow"></span>
+                <div className="form-check">
+                    <input type="checkbox" className="form-check-input" name="ch" id="ch" value="" /* onBlur={formik.handleBlur} */ />
+                    <label className="form-check-label">I accept Terms & Conditions</label><br />
+                    {formik.touched.ch && formik.errors.ch ? <span className="text-danger">{formik.errors.ch}</span> : null}
+                </div><br />
+                <div className="mt-2">
+                    <input type="submit" className="btn btn-success ms-2" id="submit" value="SUBMIT" />
+                    <input type="reset" className="btn btn-success ms-2" />
+                </div>
+                <br /><br />
+            </form>
+
+        </div>
     )
 }

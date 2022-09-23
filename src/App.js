@@ -21,7 +21,7 @@ function App() {
         <Routes>
           <Route exact path='/home' element={<HomePage/>}/>
           <Route exact path='/about' element={<About/>}/>
-          <Route exact path='/custreg' element={<TempCustReg/>}/>
+          <Route exact path='/custreg' element={<CustomerRegistration/>}/>
           <Route exact path='/helpreg' element={<HelperRegistration/>}/>
           <Route exact path='/custlogin' element={<CustomerLoginForm/>}/>
           <Route exact path='/helplogin' element={<HelperLoginForm/>}/>

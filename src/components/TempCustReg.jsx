@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useFormik } from 'formik'
+import { Formik, useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 // import CustomerService from '../Service/CustomerService'
 import axios from 'axios'
@@ -59,11 +59,12 @@ export default function TempCustReg(){
         initialValues: initialValues,
         validationSchema:custregval,
         onSubmit: ()=>{
-            addEmployee();
+            addCustomer();
         }
     })
 
-    const addEmployee = () =>{
+    const addCustomer = (e) =>{
+        e.preventDefault();
         axios.post("http://localhost:8081/customer/create",Customer).then((res)=>{
             alert("New Customer has been added");
             navigate('/custlist');
@@ -76,7 +77,7 @@ export default function TempCustReg(){
                 <div className="container mt-5 col-6">
                     <div id="myalert"></div>
                     <h1 style={{textAlign:'center'}}>Customer Registration </h1><hr/><br/>
-                    <form id="form" method="post" onSubmit={handleSubmit}>
+                    <form id="form" method="post" onSubmit={(e)=>{addCustomer(e)}}>
                         <div className="form-group col-12">
                             <b>Name</b>
                             <input type="text" name="customerName" className="form-control" 
